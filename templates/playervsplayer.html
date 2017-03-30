@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+    	<br>
+
+        <table class="player-vs-player-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                	<th class="bg-primary text-lg-center">RANK</th>
+                    <th class="text-lg-center">PLAYER</th>
+                    <th class="bg-primary text-lg-center">TEAM</th>
+               		<th class="bg-primary text-lg-center">GP</th>
+                    <th class="bg-primary text-lg-center">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-danger text-lg-center">EFF</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in player_leaders %}
+	            <tr>
+	            	<td class="text-lg-center">{{ i["RANK"] }}</td>
+	                <th>
+	                	<a class="nounderline" href="/players/{{ i["PLAYER_ID"] }}">{{ i["PLAYER"] }} </a>
+	                </th>
+	                <th class="text-lg-center">
+	                	<a class="nounderline dark-grey" href="/teams/{{ teams[i["TEAM"]]["id"] }}">{{ i["TEAM"] }} </a>
+	                </th>
+	                <td class="text-lg-center">{{ i["GP"] }}</td>
+	                <td class="text-lg-center">{{ i["MIN"] }}</td>
+	                <td>{{ i["PTS"] }}</td>
+	                <td>{{ i["REB"] }}</td>
+	                <td>{{ i["AST"] }}</td>
+	                <td>{{ i["FGM"] }}-{{ i["FGA"] }}</td>
+	                {% if i["FG_PCT"] %}
+	                	<td>{{ i["FG_PCT"] * 100 }}</td>
+	                {% else %}
+	                	<td>{{ i["FG_PCT"] }}</td>
+	                {% endif %}
+	                <td>{{ i["FG3M"] }}-{{ i["FG3A"] }}</td>
+	                {% if i["FG3_PCT"] %}
+	                	<td>{{ i["FG3_PCT"] * 100 }}</td>
+	                {% else %}
+	                	<td>{{ i["FG3_PCT"] }}</td>
+	                {% endif %}
+	                <td>{{ i["FTM"] }}-{{ i["FTA"] }}</td>
+	                {% if i["FT_PCT"] %}
+	                	<td>{{ i["FT_PCT"] * 100 }}</td>
+	                {% else %}
+	                	<td>{{ i["FT_PCT"] }}</td>
+	                {% endif %}
+	                <td>{{ i["OREB"] }}</td>
+	                <td>{{ i["DREB"] }}</td>
+	                <td>{{ i["STL"] }}</td>
+	                <td>{{ i["BLK"] }}</td>
+	                <td>{{ i["TOV"] }}</td>
+	                <th class="text-lg-center">{{ i["EFF"] }}</th>
+	            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

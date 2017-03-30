@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <br>
+
+        <table class="team-vs-team-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                    <th class="text-lg-center">LINEUP</th>
+                    <th class="bg-primary text-lg-center">TEAM</th>
+                    <th class="bg-primary text-lg-center">GP</th>
+                    <th class="bg-primary text-lg-center boxscore-column-width">W-L</th>
+                    <th class="bg-primary text-lg-center">WIN%</th>
+                    <th class="bg-primary text-lg-center">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">BLKA</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                    <th class="bg-primary">PFD</th>
+                    <th class="bg-primary">+/-</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in league_dash_lineups %}
+                <tr>
+                    <td>{{ i["GROUP_NAME"] }}</td>
+                    <th class="text-lg-center">
+                        <a class="nounderline dark-grey" href="/teams/{{ i["TEAM_ID"] }}">{{ i["TEAM_ABBREVIATION"] }} </a>
+                    </th>
+                    <td class="text-lg-center">{{ i["GP"] }}</td>
+                    <td class="text-lg-center">{{ i["W"] }}-{{ i["L"] }}</td>
+                    <td class="text-lg-center">{{ i["W_PCT"] }}</td>
+                    <td class="text-lg-center">{{ i["MIN"] }}</td>
+                    <td>{{ i["PTS"] }}</td>
+                    <td>{{ i["REB"] }}</td>
+                    <td>{{ i["AST"] }}</td>
+                    {% if i["FG_PCT"] %}
+                        <td>{{ i["FG_PCT"] * 100 }}</td>
+                    {% else %}
+                        <td>{{ i["FG_PCT"] }}</td>
+                    {% endif %}
+                    {% if i["FG3_PCT"] %}
+                        <td>{{ i["FG3_PCT"] * 100 }}</td>
+                    {% else %}
+                        <td>{{ i["FG3_PCT"] }}</td>
+                    {% endif %}
+                    {% if i["FT_PCT"] %}
+                        <td>{{ i["FT_PCT"] * 100 }}</td>
+                    {% else %}
+                        <td>{{ i["FT_PCT"] }}</td>
+                    {% endif %}
+                    <td>{{ i["OREB"] }}</td>
+                    <td>{{ i["DREB"] }}</td>
+                    <td>{{ i["STL"] }}</td>
+                    <td>{{ i["BLK"] }}</td>
+                    <td>{{ i["BLKA"] }}</td>
+                    <td>{{ i["TOV"] }}</td>
+                    <td>{{ i["PF"] }}</td>
+                    <td>{{ i["PFD"] }}</td>
+                    <td>{{ i["PLUS_MINUS"] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <br>
+        {% if not get_player %}
+            {% if not get_team %}
+            <h4>Player or team not found. Search for full names (case insensitive).</h4>
+            {% else %}
+                <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr class="bg-primary text-white">
+                            <th>Team</th>
+                            <th>Record</th>
+                            <th>Conference</th>
+                            <th>Conf Rank</th>
+                            <th>Division</th>
+                            <th>Div Rank</th>
+                            <th>Season</th>
+                            <th>Debut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th><a class="nounderline" href="/teams/{{ get_team[0]["TEAM_ID"] }}">{{ get_team[0]["TEAM_CITY"] }} {{ get_team[0]["TEAM_NAME"] }}</th> 
+                        <td>{{ get_team[0]["W"] }}-{{ get_team[0]["L"] }}</td>
+                        <td>{{ get_team[0]["TEAM_CONFERENCE"] }}</td>
+                        <td>{{ get_team[0]["CONF_RANK"] }}</td>
+                        <td>{{ get_team[0]["TEAM_DIVISION"] }}</td>
+                        <td>{{ get_team[0]["DIV_RANK"] }}</td>
+                        <td>{{ get_team[0]["SEASON_YEAR"] }}</td>
+                        <td>{{ get_team[0]["MIN_YEAR"] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        {% else %}
+        <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Player</th>
+                    <th>Team</th>
+                    <th>Active Years</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th><a class="nounderline" href="/players/{{ get_player["PERSON_ID"] }}">{{ get_player["DISPLAY_FIRST_LAST"] }}</th> 
+                <td><a class="nounderline" href="/teams/{{ get_player["TEAM_ID"] }}">{{ get_player["TEAM_CITY"] }} {{ get_player["TEAM_NAME"] }}</a></td>
+                <td>{{ get_player["FROM_YEAR"] }}-{{ get_player["TO_YEAR"] }}</td>
+            </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+{% endblock %}

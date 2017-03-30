@@ -1,0 +1,396 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <br>
+
+        <h3>Draft Combine</h3>
+
+        <form action="/draftcombine/1" method="POST">
+            <select name="season" class="custom-select" onchange="this.form.submit()">
+              <option selected>{{ year }}</option>
+              {% for i in range(2016, 1999, -1) %}
+                  {% if i != year %}
+                    <option value="{{ i }}">{{ i }}</option>
+                  {% endif %}
+              {% endfor %}
+            </select>
+        </form>
+                
+        <br>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#body-measurements" role="tab">Body Measurements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#spot-up-shooting" role="tab">Spot Up Shooting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#nonstationary-shooting" role="tab">Nonstationary Shooting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#speed-and-agility" role="tab">Speed and Agility</a>
+          </li>
+        </ul>
+
+        <br>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="body-measurements" role="tabpanel">
+                <ul class="list-unstyled">
+                    <li><b>Body Fat %</b> - Body Fat Percentage</li>
+                    <li><b>Hand Length (inches)</b> - Length of the Prospect's hand in inches. The measurement is taken from the bottom of the player's palm to the tip of his middle finger.</li>
+                    <li><b>Hand Width (inches)</b> - Width of the Prospect's hand in inches. The measurement is taken from the player's outstretched hand from the tip of the thumb to tip of the pinky finger.</li>
+                    <li><b>Height W/O Shoes</b> - Height of the player without wearing shoes.</li>
+                    <li><b>Height W/ Shoes</b> - Height of the player while in shoes.</li>
+                    <li><b>Standing Reach</b> - The reach of the player while standing still. The player reaches straight up to his highest point.</li>
+                    <li><b>Weight (lbs)</b> - The weight of the player in pounds.</li>
+                    <li><b>Wingspan</b> - The player stretches his arms horizontally and a measure is made from the tip of his left hand to the tip of his right hand.</li>
+                </ul>
+
+                <table class="legend-from-table body-measurements-datatable table table-sm">
+                    <thead class="thead-inverse">
+                        <tr class="text-white">
+                            <th class="text-lg-center">PLAYER</th>
+                            <td class="bg-primary text-lg-center">POS</td>
+                            <td class="bg-primary text-lg-center">Body Fat PCT</td>
+                            <td class="bg-primary text-lg-center">Height W/O Shoes</td>
+                            <td class="bg-primary text-lg-center">Height W/ Shoes</td>
+                            <td class="bg-primary text-lg-center">Weight</td>
+                            <td class="bg-primary text-lg-center">Standing Reach</td>
+                            <td class="bg-primary text-lg-center">Hand Length</td>
+                            <td class="bg-primary text-lg-center">Hand Width</td>
+                            <td class="bg-primary text-lg-center">Wingspan</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in draft_combine_summary %}
+                    
+                    <tr>
+                        <th>{{ i["PLAYER_NAME"] }}</th>
+                        <td class="text-lg-center">{{ i["POSITION"] }}</td>
+                        {% if i["BODY_FAT_PCT"] %}
+                            <td class="text-lg-center">{{ i["BODY_FAT_PCT"] }}%</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["HEIGHT_WO_SHOES_FT_IN"] %}
+                            <td class="text-lg-center">{{ i["HEIGHT_WO_SHOES_FT_IN"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["HEIGHT_W_SHOES_FT_IN"] %}
+                            <td class="text-lg-center">{{ i["HEIGHT_W_SHOES_FT_IN"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["WEIGHT"] %}
+                            <td class="text-lg-center">{{ i["WEIGHT"] }} lb</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["STANDING_REACH_FT_IN"] %}
+                            <td class="text-lg-center">{{ i["STANDING_REACH_FT_IN"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["HAND_LENGTH"] %}
+                            <td class="text-lg-center">{{ i["HAND_LENGTH"] }} in</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["HAND_WIDTH"] %}
+                            <td class="text-lg-center">{{ i["HAND_WIDTH"] }} in</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        {% if i["WINGSPAN_FT_IN"] %}
+                            <td class="text-lg-center">{{ i["WINGSPAN_FT_IN"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                   
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane" id="spot-up-shooting" role="tabpanel">
+                <ul class="list-unstyled">
+                    <li><b>NBA Break Left</b> - A player takes five shots from the left break area of the court. The shot is from the distance of an NBA three pointer (23 ft. 9 in.).</li>
+                    <li><b>NBA Break Right</b> - A player takes five shots from the right break area of the court. The shot is from the distance of an NBA three pointer (23 ft. 9 in.).</li>
+                    <li><b>NBA Corner Left</b> - A player takes five shots from the left corner area of the court. The shot is from the distance of an NBA three pointer (23 ft. 9 in.).</li>
+                    <li><b>NBA Corner Right</b> - A player takes five shots from the right corner area of the court. The shot is from the distance of an NBA three pointer (23 ft. 9 in.).</li>
+                    <li><b>NBA Top Key</b> - A player takes five shots from top of the key. The shot is from the distance of an NBA three pointer (23 ft. 9 in.).</li>
+                    <li><b>College Break Left</b> - A player takes five shots from the left break area of the court. The shot is from the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>College Break Right</b> - A player takes five shots from the right break area of the court. The shot is from the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>College Corner Left</b> - A player takes five shots from the left corner area of the court. The shot is from the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>College Corner Right</b> - A player takes five shots from the right corner area of the court. The shot is from the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>College Top Key</b> - A player takes five shots from top of the key. The shot is from the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>Fifteen Break Left</b> - A player takes five shots from the left break and 15 feet away from the basket.</li>
+                    <li><b>Fifteen Break Right</b> - A player takes five shots from the right break and 15 feet away from the basket.</li>
+                    <li><b>Fifteen Corner Left</b> - A player takes five shots from the left baseline and 15 feet away from the basket.</li>
+                    <li><b>Fifteen Corner Right</b> - A player takes five shots from the right baseline and 15 feet away from the basket.</li>
+                    <li><b>Fifteen Top Key</b> - A player takes five shots from the top of the key and 15 feet away from the basket.</li>
+                </ul>
+
+                <table class="legend-from-table spot-up-shooting-datatable table table-sm">
+                    <thead class="thead-inverse">
+                        <tr class="bg-primary text-white">
+                            <th class="text-lg-center">PLAYER</th>
+                            <td class="bg-primary text-lg-center">POS</td>
+                            <td class="bg-primary text-lg-center">NBA Break Left</td>
+                            <td class="bg-primary text-lg-center">NBA Break Right</td>
+                            <td class="bg-primary text-lg-center">NBA Corner Left</td>
+                            <td class="bg-primary text-lg-center">NBA Corner Right</td>
+                            <td class="bg-primary text-lg-center">NBA Top Key</td>
+                            <td class="bg-primary text-lg-center">College Break Left</td>
+                            <td class="bg-primary text-lg-center">College Break Right</td>
+                            <td class="bg-primary text-lg-center">College Corner Left</td>
+                            <td class="bg-primary text-lg-center">College Corner Right</td>
+                            <td class="bg-primary text-lg-center">College Top Key</td>
+                            <td class="bg-primary text-lg-center">Fifteen Break Left</td>
+                            <td class="bg-primary text-lg-center">Fifteen Break Right</td>
+                            <td class="bg-primary text-lg-center">Fifteen Corner Left</td>
+                            <td class="bg-primary text-lg-center">Fifteen Corner Right</td>
+                            <td class="bg-primary text-lg-center">Fifteen Top Key</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in draft_combine_summary %}
+                    
+                    <tr>
+                        <th>{{ i["PLAYER_NAME"] }}</th>
+                        <td class="text-lg-center">{{ i["POSITION"] }}</td>
+                        {% if i["SPOT_NBA_BREAK_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_NBA_BREAK_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_NBA_BREAK_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_NBA_BREAK_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_NBA_CORNER_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_NBA_CORNER_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_NBA_CORNER_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_NBA_CORNER_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_NBA_TOP_KEYN"] %}
+                            <td class="text-lg-center">{{ i["SPOT_NBA_TOP_KEY"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_COLLEGE_BREAK_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_COLLEGE_BREAK_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_COLLEGE_BREAK_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_COLLEGE_BREAK_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_COLLEGE_CORNER_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_COLLEGE_CORNER_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                       
+                        {% if i["SPOT_COLLEGE_CORNER_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_COLLEGE_CORNER_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                      
+                        {% if i["SPOT_COLLEGE_TOP_KEY"] %}
+                            <td class="text-lg-center">{{ i["SPOT_COLLEGE_TOP_KEY"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_FIFTEEN_BREAK_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_FIFTEEN_BREAK_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_FIFTEEN_BREAK_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_FIFTEEN_BREAK_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                       
+                        {% if i["SPOT_FIFTEEN_CORNER_LEFT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_FIFTEEN_CORNER_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                       
+                        {% if i["SPOT_FIFTEEN_CORNER_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["SPOT_FIFTEEN_CORNER_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["SPOT_FIFTEEN_TOP_KEY"] %}
+                            <td class="text-lg-center">{{ i["SPOT_FIFTEEN_TOP_KEY"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                    </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane" id="nonstationary-shooting" role="tabpanel">
+                <ul class="list-unstyled">
+                    <li><b>Off Dribble College Break Left</b> - A player takes six shots coming off the dribble from the left break area of the court. The shot is from about the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>Off Dribble College Break Right</b> - A player takes six shots coming off the dribble from the right break area of the court. The shot is from about the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>Off Dribble College Top Key</b> - A player takes six shots coming off the dribble from the top of the key. The shot is from about the distance of a college three pointer (20 ft. 9 in.).</li>
+                    <li><b>Off Dribble Fifteen Break Left</b> - A player takes six shots coming off the dribble from 15 feet away from the basket on the left break area of the the court.</li>
+                    <li><b>Off Dribble Fifteen Break Right</b> - A player takes six shots coming off the dribble from 15 feet away from the basket on the right break area of the the court.</li>
+                    <li><b>Off Dribble Fifteen Top Key</b> - A player takes six shots coming off the dribble from 15 feet out at the top of the key.</li>
+                    <li><b>On the Move College</b> - 35 seconds to attempt as many shots as time allows from college 3-pt range (20 ft. 9 in.). while moving between spots (corners and elbows from both sides).</li>
+                    <li><b>On the Move Fifteen</b> - 35 seconds to attempt as many shots as time allows from 15 feet while moving between spots (corners and elbows from both sides).</li>
+                </ul>
+
+                <table class="legend-from-table body-measurements-datatable table table-sm">
+                    <thead class="thead-inverse">
+                        <tr class="bg-primary text-white">
+                            <th class="text-lg-center">PLAYER</th>
+                            <td class="bg-primary text-lg-center">POS</td>
+                            <td class="bg-primary text-lg-center">Off Dribble College Break Left</td>
+                            <td class="bg-primary text-lg-center">Off Dribble College Break Right</td>
+                            <td class="bg-primary text-lg-center">Off Dribble College Top Key</td>
+                            <td class="bg-primary text-lg-center">Off Dribble Fifteen Break Left</td>
+                            <td class="bg-primary text-lg-center">Off Dribble Fifteen Break Right</td>
+                            <td class="bg-primary text-lg-center">Off Dribble Fifteen Top Key</td>
+                            <td class="bg-primary text-lg-center">On The Move College</td>
+                            <td class="bg-primary text-lg-center">On The Move Fifteen</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in draft_combine_summary %}
+                    
+                    <tr>
+                        <th>{{ i["PLAYER_NAME"] }}</th>
+                        <td class="text-lg-center">{{ i["POSITION"] }}</td>
+                        {% if i["OFF_DRIB_COLLEGE_BREAK_LEFT"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_COLLEGE_BREAK_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["OFF_DRIB_COLLEGE_BREAK_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_COLLEGE_BREAK_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["OFF_DRIB_COLLEGE_TOP_KEY"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_COLLEGE_TOP_KEY"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["OFF_DRIB_FIFTEEN_BREAK_LEFT"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_FIFTEEN_BREAK_LEFT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["OFF_DRIB_FIFTEEN_BREAK_RIGHT"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_FIFTEEN_BREAK_RIGHT"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["OFF_DRIB_FIFTEEN_TOP_KEY"] %}
+                            <td class="text-lg-center">{{ i["OFF_DRIB_FIFTEEN_TOP_KEY"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["ON_MOVE_COLLEGE"] %}
+                            <td class="text-lg-center">{{ i["ON_MOVE_COLLEGE"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["ON_MOVE_FIFTEEN"] %}
+                            <td class="text-lg-center">{{ i["ON_MOVE_FIFTEEN"] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                    
+                    </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane" id="speed-and-agility" role="tabpanel">
+                <ul class="list-unstyled">
+                    <li><b>Lane Agility Time (seconds)</b> - This drill measures lateral quickness and the player's agility.</li>
+                    <li><b>Shuttle Run (seconds)</b> - This measures a player's agility and ability to change directions.</li>
+                    <li><b>Three Quarter Sprint (seconds)</b> - A player is timed in a sprint from the baseline to 3/4th the length of the court.</li>
+                    <li><b>Standing Vertical Leap (inches)</b> - The vertical leap of a player with no running start.</li>
+                    <li><b>Max Vertical Leap (inches)</b> - The vertical leap of a player with a few steps to start and gather his leap.</li>
+                    <li><b>Max Bench Press (repetitions)</b> - The number of bench press repetitions at 185 lbs.</li>
+                </ul>
+
+                <table class="legend-from-table strength-and-agility-datatable table table-sm">
+                    <thead class="thead-inverse">
+                        <tr class="bg-primary text-white">
+                            <th class="text-lg-center">PLAYER</th>
+                            <td class="bg-primary text-lg-center">POS</td>
+                            <td class="bg-primary text-lg-center">Lane Agility Time</td>
+                            <td class="bg-primary text-lg-center">Shuttle Run</td>
+                            <td class="bg-primary text-lg-center">Three Quarter Sprint</td>
+                            <td class="bg-primary text-lg-center">Standing Vertical Leap</td>
+                            <td class="bg-primary text-lg-center">Max Vertical Leap</td>
+                            <td class="bg-primary text-lg-center">Max Bench Press</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in draft_combine_summary %}
+                    
+                    <tr>
+                        <th>{{ i["PLAYER_NAME"] }}</th>
+                        <td class="text-lg-center">{{ i["POSITION"] }}</td>
+                        {% if i["LANE_AGILITY_TIME"] %}
+                            <td class="text-lg-center">{{ i["LANE_AGILITY_TIME"] }} sec</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["MODIFIED_LANE_AGILITY_TIME"] %}
+                            <td class="text-lg-center">{{ i["MODIFIED_LANE_AGILITY_TIME"] }} sec</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["THREE_QUARTER_SPRINT"] %}
+                            <td class="text-lg-center">{{ i["THREE_QUARTER_SPRINT"] }} sec</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["STANDING_VERTICAL_LEAP"] %}
+                            <td class="text-lg-center">{{ i["STANDING_VERTICAL_LEAP"] }} in</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["MAX_VERTICAL_LEAP"] %}
+                            <td class="text-lg-center">{{ i["MAX_VERTICAL_LEAP"] }} in</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                        
+                        {% if i["BENCH_PRESS"] %}
+                            <td class="text-lg-center">{{ i["BENCH_PRESS"] }} reps</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}                    
+                    </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,531 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <br>
+        {% if len_team_stats == 0 %}
+            <h4>Boxscore does not have any data yet.</h4>
+        {% else %}
+
+        <div class="row">
+            <div class="col-lg-5">
+                <h3>{{ pretty_date }}</h3>
+                <br>
+                <table class="table table-sm">
+                    <thead class="thead-inverse">
+                        <tr class="bg-primary text-white">
+                            <th class="text-lg-center">TEAM</th>
+                            <th class="bg-primary text-lg-center">Q1</th>
+                            <th class="bg-primary text-lg-center">Q2</th>
+                            <th class="bg-primary text-lg-center">Q3</th>
+                            <th class="bg-primary text-lg-center">Q4</th>
+                            {% if boxscore_line_score[0]["PTS_OT1"] %}
+                                <th class="bg-primary text-lg-center">OT1</th>
+                            {% endif %}
+                            {% if boxscore_line_score[0]["PTS_OT2"] %}
+                                <th class="bg-primary text-lg-center">OT2</th>
+                            {% endif %}
+                            {% if boxscore_line_score[0]["PTS_OT3"] %}
+                                <th class="bg-primary text-lg-center">OT3</th>
+                            {% endif %}
+                            {% if boxscore_line_score[0]["PTS_OT4"] %}
+                                <th class="bg-primary text-lg-center">OT4</th>
+                            {% endif %}
+                            <th class="bg-primary text-lg-center">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in boxscore_line_score %}
+                        {% if home_team == i["TEAM_ABBREVIATION"] %}
+                        <tr>
+                            {% if i["TEAM_ABBREVIATION"] == winning %}
+                                <th class="text-lg-center">
+                                    {% if home_team_logo %}
+                                        <img class="team-logo-sm-quarter" src="/static/{{ home_team_logo }}">
+                                    {% endif %} 
+                                    {{ i["TEAM_ABBREVIATION"] }}
+                                </th>
+                            {% else %}
+                                <td class="text-lg-center">
+                                    {% if home_team_logo %}
+                                        <img class="team-logo-sm-quarter" src="/static/{{ home_team_logo }}">
+                                    {% endif %} 
+                                    {{ i["TEAM_ABBREVIATION"] }}
+                                </td>
+                            {% endif %}
+                            <td class="text-lg-center">{{ i["PTS_QTR1"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR2"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR3"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR4"] }}</td>
+                            {% if i["PTS_OT1"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT1"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT2"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT2"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT3"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT3"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT4"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT4"] }}</td>
+                            {% endif %}
+                            {% if i["TEAM_ABBREVIATION"] == winning %}
+                                <th class="text-lg-center">{{ i["PTS"] }}</th>
+                            {% else %}
+                                <td class="text-lg-center">{{ i["PTS"] }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% for i in boxscore_line_score %}
+                        {% if away_team == i["TEAM_ABBREVIATION"] %}
+                        <tr>
+                            {% if i["TEAM_ABBREVIATION"] == winning %}
+                                <th class="text-lg-center">
+                                    {% if away_team_logo %}
+                                        <img class="team-logo-sm-quarter" src="/static/{{ away_team_logo }}">
+                                    {% endif %} 
+                                    {{ i["TEAM_ABBREVIATION"] }}
+                                </th>
+                                {% else %}
+                                <td class="text-lg-center">
+                                    {% if away_team_logo %}
+                                        <img class="team-logo-sm-quarter" src="/static/{{ away_team_logo }}">
+                                    {% endif %} 
+                                    {{ i["TEAM_ABBREVIATION"] }}
+                                </td>
+                            {% endif %}
+                            <td class="text-lg-center">{{ i["PTS_QTR1"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR2"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR3"] }}</td>
+                            <td class="text-lg-center">{{ i["PTS_QTR4"] }}</td>
+                            {% if i["PTS_OT1"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT1"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT2"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT2"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT3"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT3"] }}</td>
+                            {% endif %}
+                            {% if i["PTS_OT4"] %}
+                                <td class="text-lg-center">{{ i["PTS_OT4"] }}</td>
+                            {% endif %}
+                            {% if i["TEAM_ABBREVIATION"] == winning %}
+                                <th class="text-lg-center">{{ i["PTS"] }}</th>
+                            {% else %}
+                                <td class="text-lg-center">{{ i["PTS"] }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if nba_recap %}
+                    <a target="_blank" class="btn btn-secondary nounderline" href="{{ nba_recap }}"><i class="fa fa-play-circle" aria-hidden="true"></i> &nbsp;Watch NBA Recap</a>
+                    <br></br>
+                {% endif %}
+                {% if full_match_url %}
+                    &nbsp;<a target="_blank" class="btn btn-primary nounderline" href="{{ full_match_url }}"><i class="fa fa-video-camera" aria-hidden="true"></i> &nbsp;Watch Full Match</a>
+                    <br>
+                {% endif %}
+            </div>
+            <div class="col-lg-7">
+                {% if post_game_thread %}
+                    <br>
+                    <blockquote class="reddit-card" data-card-preview="0"><a href="{{ post_game_thread[0] }}?ref=share&ref_source=embed">{{ post_game_thread[1] }}</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote>
+                    <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+                    <br></br>
+                {% endif %}
+            </div>
+        </div>
+
+        {% for i in range(len_team_stats) %}
+        {% if home_team == team_stats[i]["TEAM_ABBREVIATION"] %}
+        {% set starters_title = True %}
+        <table class="boxscores-datatable table table-sm">
+            <h4><a class="nounderline dark-grey" href="/teams/{{ team_stats[i]["TEAM_ID"] }}">
+            {% if home_team_logo %}
+                <img class="team-logo-sm-boxscore" src="/static/{{ home_team_logo }}">
+            {% endif %} 
+            {{ team_stats[i]["TEAM_CITY"] }} {{ team_stats[i]["TEAM_NAME"] }}</a>
+            {% for j in boxscore_line_score %}
+                {% if home_team == j["TEAM_ABBREVIATION"] %}
+                    ({{ j["TEAM_WINS_LOSSES"] }})
+                {% endif %}
+            {% endfor %}
+            </h4>
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                    <th class="text-lg-center">PLAYER</th>
+                    <th class="bg-primary text-lg-center">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                    <th class="bg-primary">+/-</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for j in range(len_player_stats) %}
+            {% if player_stats[j]["TEAM_ABBREVIATION"] == team_stats[i]["TEAM_ABBREVIATION"] %}
+            {% if i == 0 and num_starters == 5 and starters_title %}
+                <!-- <td colspan="18"><b>STARTERS</b></td> -->
+                {% set starters_title = False %}
+            {% endif %}
+            {% if i == 1 and num_starters == 5 and starters_title %}
+                <!-- <td colspan="18"><b>STARTERS</b></td> -->
+                {% set starters_title = False %}
+            {% endif %}
+            {% if num_starters == 0 %}
+                <!-- <td colspan="18"><b>BENCH</b></td> -->
+                {% set num_starters = num_starters - 1 %}
+            {% endif %}
+            <tr>
+                {% if not player_stats[j]["COMMENT"] %}
+                <th><a class="nounderline" href="/players/{{ player_stats[j]["PLAYER_ID"] }}">{{ player_stats[j]["PLAYER_NAME"] }} 
+                </a>
+                {% if player_stats[j]["START_POSITION"] %}
+                    {{ player_stats[j]["START_POSITION"] }}
+                    {% set num_starters = num_starters - 1 %}
+                {% endif %}
+                </th>
+                <td class="text-lg-center">{{ player_stats[j]["MIN"] }}</td>
+                <td>{{ player_stats[j]["PTS"] }}</td>
+                <td>{{ player_stats[j]["REB"] }}</td>
+                <td>{{ player_stats[j]["AST"] }}</td>
+                <td>{{ player_stats[j]["FGM"] }}-{{ player_stats[j]["FGA"] }}</td>
+                {% if player_stats[j]["FG_PCT"] %}
+                <td>{{ player_stats[j]["FG_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FG_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["FG3M"] }}-{{ player_stats[j]["FG3A"] }}</td>
+                {% if player_stats[j]["FG3_PCT"] %}
+                <td>{{ player_stats[j]["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FG3_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["FTM"] }}-{{ player_stats[j]["FTA"] }}</td>
+                {% if player_stats[j]["FT_PCT"] %}
+                <td>{{ player_stats[j]["FT_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FT_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["OREB"] }}</td>
+                <td>{{ player_stats[j]["DREB"] }}</td>
+                <td>{{ player_stats[j]["STL"] }}</td>
+                <td>{{ player_stats[j]["BLK"] }}</td>
+                <td>{{ player_stats[j]["TO"] }}</td>
+                <td>{{ player_stats[j]["PF"] }}</td>
+                <td>{{ player_stats[j]["PLUS_MINUS"] }}</td>
+                {% else %}
+                <th><a class="nounderline" href="/players/{{ player_stats[j]["PLAYER_ID"] }}">{{ player_stats[j]["PLAYER_NAME"] }} 
+                </a>
+                <br>
+                {{ player_stats[j]["COMMENT"] }}
+                </th>
+                <td class="text-lg-center">00:00</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+            <tfoot>
+            <tr>
+                <th>TEAM</th> 
+                <td class="text-lg-center">{{ team_stats[i]["MIN"] }}</td>
+                {% if team_stats[i]["TEAM_ABBREVIATION"] == winning %}
+                    <th>{{ team_stats[i]["PTS"] }}</th>
+                {% else %}
+                    <td>{{ team_stats[i]["PTS"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["REB"] }}</td>
+                <td>{{ team_stats[i]["AST"] }}</td>
+                <td class="boxscore-column-width">{{ team_stats[i]["FGM"] }}-{{ team_stats[i]["FGA"] }}</td>
+                {% if team_stats[i]["FG_PCT"] %}
+                <td>{{ team_stats[i]["FG_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FG_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["FG3M"] }}-{{ team_stats[i]["FG3A"] }}</td>
+                {% if team_stats[i]["FG3_PCT"] %}
+                <td>{{ team_stats[i]["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FG3_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["FTM"] }}-{{ team_stats[i]["FTA"] }}</td>
+                {% if team_stats[i]["FT_PCT"] %}
+                <td>{{ team_stats[i]["FT_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FT_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["OREB"] }}</td>
+                <td>{{ team_stats[i]["DREB"] }}</td>
+                <td>{{ team_stats[i]["STL"] }}</td>
+                <td>{{ team_stats[i]["BLK"] }}</td>
+                <td>{{ team_stats[i]["TO"] }}</td>
+                <td>{{ team_stats[i]["PF"] }}</td>
+                <td>{{ team_stats[i]["PLUS_MINUS"] }}</td>
+            </tr>
+            </tfoot>
+            </tbody>
+        </table>
+        <br>
+        {% endif %}
+        {% endfor %}
+
+        {% for i in range(len_team_stats) %}
+        {% if away_team == team_stats[i]["TEAM_ABBREVIATION"] %}
+        {% set starters_title = True %}
+        <table class="boxscores-datatable table table-sm">
+            <h4><a class="nounderline dark-grey" href="/teams/{{ team_stats[i]["TEAM_ID"] }}">
+            {% if away_team_logo %}
+                <img class="team-logo-sm-boxscore" src="/static/{{ away_team_logo }}">
+            {% endif %}
+            {{ team_stats[i]["TEAM_CITY"] }} {{ team_stats[i]["TEAM_NAME"] }}</a>
+            {% for j in boxscore_line_score %}
+                {% if away_team == j["TEAM_ABBREVIATION"] %}
+                    ({{ j["TEAM_WINS_LOSSES"] }})
+                {% endif %}
+            {% endfor %}
+            </h4>
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                    <th class="text-lg-center">PLAYER</th>
+                    <th class="bg-primary text-lg-center">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                    <th class="bg-primary">+/-</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for j in range(len_player_stats) %}
+            {% if player_stats[j]["TEAM_ABBREVIATION"] == team_stats[i]["TEAM_ABBREVIATION"] %}
+            {% if i == 0 and num_starters == 5 and starters_title %}
+                <!-- <td colspan="18"><b>STARTERS</b></td> -->
+                {% set starters_title = False %}
+            {% endif %}
+            {% if i == 1 and num_starters == 5 and starters_title %}
+                <!-- <td colspan="18"><b>STARTERS</b></td> -->
+                {% set starters_title = False %}
+            {% endif %}
+            {% if num_starters == 0 %}
+                <!-- <td colspan="18"><b>BENCH</b></td> -->
+                {% set num_starters = num_starters - 1 %}
+            {% endif %}
+            <tr>
+                {% if not player_stats[j]["COMMENT"] %}
+                <th><a class="nounderline" href="/players/{{ player_stats[j]["PLAYER_ID"] }}">{{ player_stats[j]["PLAYER_NAME"] }} 
+                </a>
+                {% if player_stats[j]["START_POSITION"] %}
+                    {{ player_stats[j]["START_POSITION"] }}
+                    {% set num_starters = num_starters - 1 %}
+                {% endif %}
+                </th>
+                <td class="text-lg-center">{{ player_stats[j]["MIN"] }}</td>
+                <td>{{ player_stats[j]["PTS"] }}</td>
+                <td>{{ player_stats[j]["REB"] }}</td>
+                <td>{{ player_stats[j]["AST"] }}</td>
+                <td>{{ player_stats[j]["FGM"] }}-{{ player_stats[j]["FGA"] }}</td>
+                {% if player_stats[j]["FG_PCT"] %}
+                <td>{{ player_stats[j]["FG_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FG_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["FG3M"] }}-{{ player_stats[j]["FG3A"] }}</td>
+                {% if player_stats[j]["FG3_PCT"] %}
+                <td>{{ player_stats[j]["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FG3_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["FTM"] }}-{{ player_stats[j]["FTA"] }}</td>
+                {% if player_stats[j]["FT_PCT"] %}
+                <td>{{ player_stats[j]["FT_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ player_stats[j]["FT_PCT"] }}</td>
+                {% endif %}
+                <td>{{ player_stats[j]["OREB"] }}</td>
+                <td>{{ player_stats[j]["DREB"] }}</td>
+                <td>{{ player_stats[j]["STL"] }}</td>
+                <td>{{ player_stats[j]["BLK"] }}</td>
+                <td>{{ player_stats[j]["TO"] }}</td>
+                <td>{{ player_stats[j]["PF"] }}</td>
+                <td>{{ player_stats[j]["PLUS_MINUS"] }}</td>
+                {% else %}
+                <th><a class="nounderline" href="/players/{{ player_stats[j]["PLAYER_ID"] }}">{{ player_stats[j]["PLAYER_NAME"] }} 
+                </a>
+                <br>
+                {{ player_stats[j]["COMMENT"] }}
+                </th>
+                <td class="text-lg-center">00:00</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0-0</td>
+                <td>0.0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.0</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+            <tfoot>
+            <tr>
+                <th>TEAM</th> 
+                <td class="text-lg-center">{{ team_stats[i]["MIN"] }}</td>
+                {% if team_stats[i]["TEAM_ABBREVIATION"] == winning %}
+                    <th>{{ team_stats[i]["PTS"] }}</th>
+                {% else %}
+                    <td>{{ team_stats[i]["PTS"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["REB"] }}</td>
+                <td>{{ team_stats[i]["AST"] }}</td>
+                <td class="boxscore-column-width">{{ team_stats[i]["FGM"] }}-{{ team_stats[i]["FGA"] }}</td>
+                {% if team_stats[i]["FG_PCT"] %}
+                <td>{{ team_stats[i]["FG_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FG_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["FG3M"] }}-{{ team_stats[i]["FG3A"] }}</td>
+                {% if team_stats[i]["FG3_PCT"] %}
+                <td>{{ team_stats[i]["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FG3_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["FTM"] }}-{{ team_stats[i]["FTA"] }}</td>
+                {% if team_stats[i]["FT_PCT"] %}
+                <td>{{ team_stats[i]["FT_PCT"] * 100 }}</td>
+                {% else %}
+                <td>{{ team_stats[i]["FT_PCT"] }}</td>
+                {% endif %}
+                <td>{{ team_stats[i]["OREB"] }}</td>
+                <td>{{ team_stats[i]["DREB"] }}</td>
+                <td>{{ team_stats[i]["STL"] }}</td>
+                <td>{{ team_stats[i]["BLK"] }}</td>
+                <td>{{ team_stats[i]["TO"] }}</td>
+                <td>{{ team_stats[i]["PF"] }}</td>
+                <td>{{ team_stats[i]["PLUS_MINUS"] }}</td>
+            </tr>
+            </tfoot>
+            </tbody>
+        </table>
+        <br>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <br>
+    <div class="row">
+        {% if inactive_players %}
+        <div class="col-lg-6">
+            <h4>Inactive Players</h4>
+            <table class="table table-sm">
+                <thead class="thead-inverse">
+                    <tr class="bg-danger text-white">
+                        <th class="text-lg-center">NAME</th>
+                        <th class="bg-danger text-lg-center">TEAM</th>
+                        <th class="bg-danger text-lg-center">JERSEY NUMBER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in inactive_players %}
+                    <tr>
+                        <th><a class="nounderline dark-grey" href="/players/{{ i["PLAYER_ID"] }}">{{ i["FIRST_NAME"] }} {{ i["LAST_NAME"] }}</a></th>
+                        <td class="text-lg-center">{{ i["TEAM_ABBREVIATION"] }}</td>
+                        <td class="text-lg-center">{{ i["JERSEY_NUM"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if officials %}
+        <div class="col-lg-5 offset-lg-1">
+            <h4>Officials</h4>
+            <table class="table table-sm">
+                <thead class="thead-inverse">
+                    <tr class="bg-danger text-white">
+                        <th class="text-lg-center">NAME</th>
+                        <th class="bg-danger text-lg-center">JERSEY NUMBER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in officials %}
+                    <tr>
+                        {% if i["FIRST_NAME"] == "Matt" and i["LAST_NAME"] == "Boland" %}
+                            <th><a class="nounderline dark-grey" href="http://www.nbra.net/nba-officials/referee-biographies/Matthew-{{ i["LAST_NAME"] }}">{{ i["FIRST_NAME"] }} {{ i["LAST_NAME"] }}</a></th>
+                        {% else %}
+                            <th><a class="nounderline dark-grey" href="http://www.nbra.net/nba-officials/referee-biographies/{{ i["FIRST_NAME"] }}-{{ i["LAST_NAME"] }}">{{ i["FIRST_NAME"] }} {{ i["LAST_NAME"] }}</a></th>
+                        {% endif %}
+                        <td class="text-lg-center">{{ i["JERSEY_NUM"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    <br>
+
+    {% if youtube_url %}
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ youtube_url }}"></iframe>
+            </div>
+            <br></br>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+{% endblock %}

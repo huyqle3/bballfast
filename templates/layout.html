@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<head>
+    <title>bballfast - {{ title }}</title>
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='stylesheets/bootstrap.min.css') }}" rel='stylesheet' type='text/css' integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous"/>
+
+    <!-- Fontawesome -->
+    <link href="{{ url_for('static', filename='stylesheets/font-awesome.min.css') }}" rel='stylesheet' type='text/css' />
+    <link href="{{ url_for('static', filename='stylesheets/style.css') }}" rel='stylesheet' type='text/css' />
+
+    <!-- jQuery -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/jquery-ui.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Don't waste your time waiting for NBA basketball statistics, scores, player, and team information to load. bballfast makes finding nba stats and games easy and most importantly fast and relevant.">
+    <meta name="keywords" content="NBA,basketball,statistics,stats,bballfast,bball,fast">
+    <meta name="author" content="Huy Le">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/orange-bballfast-logo.png') }}">
+</head>
+<nav class="navbar navbar-static-top navbar-dark bg-inverse">
+    <a class="navbar-brand" href="/"><img class="banner-logo" src="{{ url_for('static', filename='images/orange-bballfast-logo.png') }}">bballfast</a>
+    <nav class="nav navbar-nav float-xs-left">
+        <a class="nav-item nav-link" href="/standings">Standings</a>
+        <a class="nav-item nav-link" href="/playervsplayer">Players</a>
+        <a class="nav-item nav-link" href="/teamvsteam">Teams</a>
+        <a class="nav-item nav-link" href="/draftcombine/2016">Draft Combine</a>
+    </nav>
+    <form action="/search" method="POST" class="float-xs-right">
+        <input type="text" name="searchname" class="form-control" placeholder="Search Player or Team...">
+    </form>
+</nav><!-- /.navbar -->
+{% block body %}
+{% endblock %}
+<!-- Bootstrap core JavaScript
+================================================== -->
+<script src="{{ url_for('static', filename='javascripts/jquery.min.js') }}" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='javascripts/tether.min.js') }}" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='javascripts/bootstrap.min.js') }}" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='javascripts/jquery-ui.js') }}"></script>
+
+<!-- Bootstrap DataTable -->
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"> -->
+<script src="{{ url_for('static', filename='javascripts/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='javascripts/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Google Analytics -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-46691413-7', 'auto');
+    ga('send', 'pageview');
+</script>
+
+<script src="{{ url_for('static', filename='javascripts/bootstrap-table.js') }}"></script>
+<script src="{{ url_for('static', filename='javascripts/datepicker.js') }}"></script>

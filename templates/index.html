@@ -1,0 +1,249 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-5">
+                <br>
+                <form id="dateform" action="/scores" method="POST" class="form-inline text-lg-center">
+                    <a href="/scores/{{ yesterday }}" class="btn btn-primary btn-mds"><i class="fa fa-caret-left" aria-hidden="true"></i></a> &nbsp;
+                    <input type="text" name="date" id="datepicker" class="form-control form-control-lg" style="font-family:Helvetica, FontAwesome" placeholder="&#xf073; &nbsp;{{ pretty_today }}">
+                    &nbsp; <a href="/scores/{{ tomorrow }}" class="btn btn-primary btn-md"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                </form>
+                <div class="list-group">
+                {% for i, game in games %}
+                <a class="score-size text-xs-center nounderline list-group-item list-group-item-action" href="/boxscores/{{ game["GAME_ID"] }}">
+                    <div class="row">
+                    {% if winners[i] == game["AWAY_TEAM"] %}
+                        <div class="col-xs-4">
+                        <b class="winning-team">
+                        {% if game["AWAY_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}">
+                        {% endif %}
+                        {{ game["AWAY_TEAM"] }} {{ game["AWAY_TEAM_PTS"] }}
+                        </b>
+                        <br>
+                        {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                        </div>
+
+                        <div class="col-xs-4 broadcast-column">
+                            <div class="final-text">
+                                {{ game["GAME_STATUS_TEXT"] }}
+                            </div>
+                            <div class="broadcaster">
+                                {{ game["BROADCASTER"] }}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                        {% if game["HOME_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                        {% endif %}
+                        {{ game["HOME_TEAM"] }} {{ game["HOME_TEAM_PTS"] }}
+                        <br>
+                        {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                        </div>
+
+                    {% elif winners[i] == game["HOME_TEAM"] %}
+                        <div class="col-xs-4">
+                        {% if game["AWAY_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}">
+                        {% endif %} 
+                        {{ game["AWAY_TEAM"] }} {{ game["AWAY_TEAM_PTS"] }}
+                        <br>
+                        {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                        </div>
+
+                        <div class="col-xs-4 broadcast-column">
+                            <div class="final-text">
+                                {{ game["GAME_STATUS_TEXT"] }}
+                            </div>
+                            <div class="broadcaster">
+                                {{ game["BROADCASTER"] }}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                        <b class="winning-team">
+                        {% if game["HOME_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                        {% endif %}
+                        {{ game["HOME_TEAM"] }} {{ game["HOME_TEAM_PTS"] }}</b>
+                        <br>
+                        {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                        </div>
+
+                    {% else %}
+                        <div class="col-xs-4">
+                        {% if game["AWAY_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}"> 
+                        {% endif %} 
+                        {{ game["AWAY_TEAM"] }}
+                        {% if game["AWAY_TEAM_PTS"] %}
+                            {{ game["AWAY_TEAM_PTS"] }}
+                        {% endif %}
+                        <br>
+                        {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                        </div>
+
+                        <div class="col-xs-4 broadcast-column">
+                            <div class="final-text">
+                                {{ game["GAME_STATUS_TEXT"] }}
+                            </div>
+                            <div class="broadcaster">
+                                {{ game["BROADCASTER"] }}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            {% if game["HOME_TEAM_IMG"] %}
+                                <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                            {% endif %} 
+                            {{ game["HOME_TEAM"] }}
+                            {%if game["HOME_TEAM_PTS"] %}
+                                {{ game["HOME_TEAM_PTS"] }}
+                            {% endif %}
+                            <br>
+                            {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                        </div>
+                    {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+                </div>
+
+                <br></br>
+
+                <table class="standings-datatable-sm table table-sm">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th class="text-lg-center">SEED</th>
+                            <th class="bg-primary text-lg-center">TEAM</th>
+                            <th class="bg-primary text-lg-center">W-L</th>
+                            <th class="bg-danger text-lg-center">TEAM</th>
+                            <th class="bg-danger text-lg-center">W-L</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i, value in east_standings %}
+                    <tr class="text-lg-center">
+                        {% if i < 9 %}
+                            <th class="text-lg-center">{{ i }}</th>
+                        {% else %}
+                            <td>{{ i }}</td>
+                        {% endif %}
+                        <th class="text-lg-center"><a class="nounderline grey" href="/teams/{{ value["TEAM_ID"] }}"><img class="team-logo-sm" src="/static/{{ team[value["TEAM"]]["img"] }}"> {{ team[value["TEAM"]]["abbrev"] }}</th>
+                        <td class="boxscore-column-width">{{ value["W"] }}-{{ value["L"] }}</td>
+                        <th class="text-lg-center"><a class="nounderline grey" href="/teams/{{ west_standings[i - 1]["TEAM_ID"] }}"><img class="team-logo" src="/static/{{ team[west_standings[i - 1]["TEAM"]]["img"] }}"> {{ team[west_standings[i - 1]["TEAM"]]["abbrev"] }}</th>
+                        <td class="boxscore-column-width">{{ west_standings[i - 1]["W"] }}-{{ west_standings[i - 1]["L"] }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                
+                <br></br>
+
+            </div>
+
+            <div class="col-lg-7 front-padding-left">
+                <br>
+                <blockquote class="reddit-card" data-card-preview="0"><a href="https://reddit.com{{ hot_nba_posts[0].permalink }}?ref=share&ref_source=embed">{{ hot_nba_posts[0].title }}</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote>
+                <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+                
+                <br>
+
+                <!-- Reddit -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        {% for i in range(1, 10, 2) %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
+                                {{ hot_nba_posts[i].title }}
+                            </a>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6">
+                        {% for i in range(2, 11, 2) %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
+                                {{ hot_nba_posts[i].title }}
+                            </a>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- YouTube -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        {% for i in range(1, 10, 2) %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
+                                {{ hot_nba_posts[i].title }}
+                            </a>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6">
+                        {% for i in range(2, 11, 2) %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
+                                {{ hot_nba_posts[i].title }}
+                            </a>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                    
+
+                <!-- <blockquote class="reddit-card" data-card-preview="0"><a href="{{ power_ranking_url }}?ref=share&ref_source=embed">{{ power_ranking_title }}</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote> -->
+                <blockquote class="reddit-card size" data-card-preview="0"><a href="https://www.reddit.com/r/nba/comments/61uj3t/official_rnba_power_rankings_11_32717/?ref=share&ref_source=embed">Official /r/NBA Power Rankings #5 (01.02.2017)</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote>
+                <br>
+                {% if youtube_url %}
+                    <br>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{{ youtube_url }}"></iframe>
+                    </div>
+                    <br>
+                {% endif %}
+
+                <br>
+
+                {% if season_high_asts %}
+                <h3 class="date-title">Season High Assists</h3>
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="list-group">
+                        {% for i in season_high_asts %}
+                            <a class="score-size text-xs-center nounderline list-group-item list-group-item-action" href="/players/{{ i["PLAYER_ID"] }}">
+                                <div class="row">
+                                    <div class="col-xs-1">
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <img class="season-highs" src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ i["PLAYER_ID"] }}.png">
+                                    </div>
+                                    <div class="season-highs-text col-xs-6">
+                                        {{ i["PLAYER"] }}<br><b>{{ i["AST"] }}</b> AVG AST
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                    </div>
+                </div>
+                {% endif %}
+
+                <br>
+                    
+                <a class="twitter-timeline" data-height="500" href="https://twitter.com/NBATV">Tweets by NBATV</a>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                </br>
+            </div>
+        </div>
+    </div>
+{% endblock %}

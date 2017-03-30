@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <br>
+        <form id="dateform" action="/standings" method="POST" class="form-inline">
+            <input type="text" name="date" id="datepicker" class="form-control" placeholder="Date...">
+        </form>
+        <br>
+        <h4>East Conference</h4>
+        <table class="standings-datatable table table-sm">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>SEED</th>
+                    <th>TEAM</th>
+                    <th>W-L</th>
+                    <th>WIN%</th>
+                    <th>HOME</th>
+                    <th>ROAD</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i, value in east_standings %}
+            <tr>
+                {% if i < 9 %}
+                    <th>{{ i }}</th>
+                {% else %}
+                    <td>{{ i }}</td>
+                {% endif %}
+                <th><a class="nounderline grey" href="/teams/{{ value["TEAM_ID"] }}">
+                {% if value["TEAM"] in team %}
+                    <img class="team-logo" src="/static/{{ team[value["TEAM"]]["img"] }}"> {{ team[value["TEAM"]]["team-name"] }}</a></th>
+                {% else %}
+                    {{ value["TEAM"] }}</a></th>
+                {% endif %} 
+                <td class="boxscore-column-width">{{ value["W"] }}-{{ value["L"] }}</td>
+                <td>{{ value["W_PCT"] }}</td>
+                <td class="boxscore-column-width">{{ value["HOME_RECORD"] }}</td>
+                <td class="boxscore-column-width">{{ value["ROAD_RECORD"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <h4>West Conference</h4>
+        <table class="standings-datatable table table-sm">
+            <thead>
+                <tr class="bg-danger text-white">
+                    <th>SEED</th>
+                    <th>TEAM</th>
+                    <th>W-L</th>
+                    <th>WIN%</th>
+                    <th>HOME</th>
+                    <th>ROAD</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i, value in west_standings %}
+            <tr>
+                {% if i < 9 %}
+                    <th>{{ i }}</th>
+                {% else %}
+                    <td>{{ i }}</td>
+                {% endif %}
+                <th><a class="nounderline grey" href="/teams/{{ value["TEAM_ID"] }}"> 
+                {% if value["TEAM"] in team %}
+                    <img class="team-logo" src="/static/{{ team[value["TEAM"]]["img"] }}"> {{ team[value["TEAM"]]["team-name"] }}</a></th>
+                {% else %}
+                    {{ value["TEAM"] }}</a></th>
+                {% endif %} 
+                <td class="boxscore-column-width">{{ value["W"] }}-{{ value["L"] }}</td>
+                <td>{{ value["W_PCT"] }}</td>
+                <td class="boxscore-column-width">{{ value["HOME_RECORD"] }}</td>
+                <td class="boxscore-column-width">{{ value["ROAD_RECORD"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

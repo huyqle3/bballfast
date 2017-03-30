@@ -1,0 +1,310 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% for i in team_summary_info %}
+            <div class="col-md-6">
+                <br>
+                <h4>
+                {{ i["TEAM_CITY"] }} {{ i["TEAM_NAME"] }}
+                </h4>
+                {% if i["TEAM_ABBREVIATION"] in team_img %}
+                {% if team_img[i["TEAM_ABBREVIATION"]]["img"] %}
+                    <img class="team-logo-lg" src="/static/{{ team_img[i["TEAM_ABBREVIATION"]]["img"] }}">
+                {% endif %} 
+                {% endif %}
+                <h4>{{ i["SEASON_YEAR"] }}</h4>
+                <ul class="list-unstyled">
+                    <li><b>W-L Record:</b> <a href="/standings/season/{{ i["SEASON_YEAR"][:4] }}">{{ current_season_info["WINS"] }} - {{ current_season_info["LOSSES"] }}</li></a>
+                    <li><b>{{ i["TEAM_CONFERENCE"] }} Conference:</b> Rank {{ i["CONF_RANK"] }}</li>
+                    <li><b>{{ i["TEAM_DIVISION"] }} Divison:</b> Rank {{ i["DIV_RANK"] }}</li>
+                    <li><b>NBA Debut:</b> {{ i["MIN_YEAR"] }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    <br>
+    <div>
+        <h4>{{ season }}</h4>
+        <table class="table table-sm">
+            <thead>
+                <tr class="bg-danger text-white">
+                    <th class="text-lg-center">PTS PG</th>
+                    <th class="text-lg-center">REB PG</th>
+                    <th class="text-lg-center">AST PG</th>
+                    <th class="text-lg-center">OPP PTS PG</th>
+                    <th class="text-lg-center">PTS RANK</th>
+                    <th class="text-lg-center">REB RANK</th>
+                    <th class="text-lg-center">AST RANK</th>
+                    <th class="text-lg-center">OPP PTS RANK</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in team_season_ranks %}
+            <tr>
+                <td class="text-lg-center">{{ i["PTS_PG"] }}</td>
+                <td class="text-lg-center">{{ i["REB_PG"] }}</td>
+                <td class="text-lg-center">{{ i["AST_PG"] }}</td>
+                <td class="text-lg-center">{{ i["OPP_PTS_PG"] }}</td>
+                <td class="text-lg-center">{{ i["PTS_RANK"] }}</td>
+                <td class="text-lg-center">{{ i["REB_RANK"] }}</td>
+                <td class="text-lg-center">{{ i["AST_RANK"] }}</td>
+                <td class="text-lg-center">{{ i["OPP_PTS_RANK"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if playoffs_team_games %}
+        <h4>Playoffs</h4>
+        <div>
+        <table class="team-games-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-warning text-white">
+                    <th class="text-lg-center">DATE</th>
+                    <th class="bg-primary text-lg-center">MATCH</th>
+                    <th class="bg-primary">W/L</th>
+                    <th class="bg-primary">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in playoffs_team_games %}
+            <tr>
+                <th class="text-lg-center">{{ i["GAME_DATE"] }}</th> 
+                <th class="text-lg-center"><a class="nounderline" href="/boxscores/{{ i["Game_ID"] }}">{{ i["MATCHUP"] }}</a></th>
+                <td>{{ i["WL"] }}</td>
+                <td>{{ i["MIN"] }}</td>
+                <td>{{ i["PTS"] }}</td>
+                <td>{{ i["REB"] }}</td>
+                <td>{{ i["AST"] }}</td>
+                <td>{{ i["FGM"] }}-{{ i["FGA"] }}</td>
+                {% if i["FG_PCT"] %}
+                    <td>{{ i["FG_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["FG3M"] }}-{{ i["FG3A"] }}</td>
+                {% if i["FG3_PCT"] %}
+                    <td>{{ i["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["FTM"] }}-{{ i["FTA"] }}</td>
+                {% if i["FT_PCT"] %}
+                    <td>{{ i["FT_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["OREB"] }}</td>
+                <td>{{ i["DREB"] }}</td>
+                <td>{{ i["STL"] }}</td>
+                <td>{{ i["BLK"] }}</td>
+                <td>{{ i["TOV"] }}</td>
+                <td>{{ i["PF"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        </div>
+    {% endif %}
+    {% if team_games %}
+        <h4>Regular Season</h4>
+        <div>
+        <table class="team-games-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-warning text-white">
+                    <th class="text-lg-center">DATE</th>
+                    <th class="bg-primary text-lg-center">MATCH</th>
+                    <th class="bg-primary">W/L</th>
+                    <th class="bg-primary">MIN</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in team_games %}
+            <tr>
+                <th class="text-lg-center">{{ i["GAME_DATE"] }}</th> 
+                <th class="text-lg-center"><a class="nounderline" href="/boxscores/{{ i["Game_ID"] }}">{{ i["MATCHUP"] }}</a></th>
+                <td>{{ i["WL"] }}</td>
+                <td>{{ i["MIN"] }}</td>
+                <td>{{ i["PTS"] }}</td>
+                <td>{{ i["REB"] }}</td>
+                <td>{{ i["AST"] }}</td>
+                <td>{{ i["FGM"] }}-{{ i["FGA"] }}</td>
+                {% if i["FG_PCT"] %}
+                    <td>{{ i["FG_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["FG3M"] }}-{{ i["FG3A"] }}</td>
+                {% if i["FG3_PCT"] %}
+                    <td>{{ i["FG3_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["FTM"] }}-{{ i["FTA"] }}</td>
+                {% if i["FT_PCT"] %}
+                    <td>{{ i["FT_PCT"] * 100 }}</td>
+                {% else %}
+                    <td>0.0</td>
+                {% endif %}
+                <td>{{ i["OREB"] }}</td>
+                <td>{{ i["DREB"] }}</td>
+                <td>{{ i["STL"] }}</td>
+                <td>{{ i["BLK"] }}</td>
+                <td>{{ i["TOV"] }}</td>
+                <td>{{ i["PF"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% endif %}
+    {% if roster %}
+    <br>
+    <div>
+        <h4>Roster</h4>
+        <table class="roster-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                    <th>PLAYER</th>
+                    <th class="bg-primary text-lg-center">POSITION</th>
+                    <th class="bg-primary text-lg-center">NUMBER</th>
+                    <th class="bg-primary text-lg-center">AGE</th>
+                    <th class="bg-primary text-lg-center">YEARS EXP</th>
+                    <th class="bg-primary text-lg-center">HEIGHT</th>
+                    <th class="bg-primary text-lg-center">WEIGHT</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in roster %}
+            <tr>
+                <th><a class="nounderline" href="/players/{{ i["PLAYER_ID"] }}">{{ i["PLAYER"] }} 
+                <td class="text-lg-center">{{ i["POSITION"] }}</td>
+                <td class="text-lg-center">{{ i["NUM"] }}</td>
+                <td class="text-lg-center">{{ i["AGE"] }}</td>
+                <td class="text-lg-center">{{ i["EXP"] }}</td>
+                <td class="text-lg-center">{{ i["HEIGHT"] }}</td>
+                <td class="text-lg-center">{{ i["WEIGHT"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% if coaches %}
+    <br>
+    <div>
+        <h4>Coaches</h4>
+        <table class="coach-datatable table table-sm">
+            <thead>
+                <tr class="bg-danger text-white">
+                    <th>COACH</th>
+                    <th>TYPE</th>
+                    <th>FROM</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in coaches %}
+            <tr>
+                <td>{{ i["COACH_NAME"] }}</td>
+                <td>{{ i["COACH_TYPE"] }}</td>
+                {% if i["SCHOOL"] %}
+                    <td>{{ i["SCHOOL"] }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% if team_season %}
+        <br>
+        <div>
+        <h4>Team Seasons</h4>
+        <table class="team-games-datatable table table-sm">
+            <thead class="thead-inverse">
+                <tr class="bg-primary text-white">
+                    <th class="text-lg-center">YEAR</th>
+                    <th class="bg-primary text-lg-center">W-L</th>
+                    <th class="bg-primary">CONF</th>                
+                    <th class="bg-primary">DIV</th>
+                    <th class="bg-primary">PTS</th>
+                    <th class="bg-primary">REB</th>
+                    <th class="bg-primary">AST</th>
+                    <th class="bg-primary boxscore-column-width">FG</th>
+                    <th class="bg-primary">FG%</th>
+                    <th class="bg-primary boxscore-column-width">3P</th>
+                    <th class="bg-primary">3P%</th>
+                    <th class="bg-primary boxscore-column-width">FT</th>
+                    <th class="bg-primary">FT%</th>
+                    <th class="bg-primary">OREB</th>
+                    <th class="bg-primary">DREB</th>
+                    <th class="bg-primary">STL</th>
+                    <th class="bg-primary">BLK</th>
+                    <th class="bg-primary">TOV</th>
+                    <th class="bg-primary">PF</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in team_season %}
+            <tr>
+                <th class="text-lg-center"><a class="nounderline" href="/teams/{{ teamid }}/season/{{ i["YEAR"] }}">{{ i["YEAR"] }}</a></th>
+                <td class="text-lg-center">{{ i["WINS"] }}-{{ i["LOSSES"] }}</td>
+                <td>{{ i["CONF_RANK"] }}</td>
+                <td>{{ i["DIV_RANK"] }}</td>
+                <td>{{ i["PTS"] }}</td>
+                <td>{{ i["REB"] }}</td>
+                <td>{{ i["AST"] }}</td>
+                <td>{{ i["FGM"] }}-{{ i["FGA"] }}</td>
+                <td>{{ i["FG_PCT"] * 100 }}</td>
+                <td>{{ i["FG3M"] }}-{{ i["FG3A"] }}</td>
+                <td>{{ i["FG3_PCT"] * 100 }}</td>
+                <td>{{ i["FTM"] }}-{{ i["FTA"] }}</td>
+                <td>{{ i["FT_PCT"] * 100 }}</td>
+                <td>{{ i["OREB"] }}</td>
+                <td>{{ i["DREB"] }}</td>
+                <td>{{ i["STL"] }}</td>
+                <td>{{ i["BLK"] }}</td>
+                <td>{{ i["TOV"] }}</td>
+                <td>{{ i["PF"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

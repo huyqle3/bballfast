@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-5">
+            <br>
+            <form id="dateform" action="/scores" method="POST" class="form-inline text-lg-center">
+                <a href="/scores/{{ yesterday }}" class="btn btn-primary btn-mds"><i class="fa fa-caret-left" aria-hidden="true"></i></a> &nbsp;
+                <input type="text" name="date" id="datepicker" class="form-control form-control-lg" style="font-family:Helvetica, FontAwesome" placeholder="&#xf073; &nbsp;{{ pretty_today }}">
+                &nbsp; <a href="/scores/{{ tomorrow }}" class="btn btn-primary btn-md"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+            </form>
+            <div class="list-group">
+            {% for i, game in games %}
+            <a class="score-size text-xs-center nounderline list-group-item list-group-item-action" href="/boxscores/{{ game["GAME_ID"] }}">
+                <div class="row">
+                {% if winners[i] == game["AWAY_TEAM"] %}
+                    <div class="col-xs-4">
+                    <b class="winning-team">
+                    {% if game["AWAY_TEAM_IMG"] %}
+                        <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}">
+                    {% endif %}
+                    {{ game["AWAY_TEAM"] }} {{ game["AWAY_TEAM_PTS"] }}
+                    </b>
+                    <br>
+                    {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                    </div>
+
+                    <div class="col-xs-4">
+                        <div class="final-text">
+                            {{ game["GAME_STATUS_TEXT"] }}
+                        </div>
+                        <div class="broadcaster">
+                            {{ game["BROADCASTER"] }}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                    {% if game["HOME_TEAM_IMG"] %}
+                        <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                    {% endif %}
+                    {{ game["HOME_TEAM"] }} {{ game["HOME_TEAM_PTS"] }}
+                    <br>
+                    {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                    </div>
+
+                {% elif winners[i] == game["HOME_TEAM"] %}
+                    <div class="col-xs-4">
+                    {% if game["AWAY_TEAM_IMG"] %}
+                        <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}">
+                    {% endif %} 
+                    {{ game["AWAY_TEAM"] }} {{ game["AWAY_TEAM_PTS"] }}
+                    <br>
+                    {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                    </div>
+
+                    <div class="col-xs-4">
+                        <div class="final-text">
+                            {{ game["GAME_STATUS_TEXT"] }}
+                        </div>
+                        <div class="broadcaster">
+                            {{ game["BROADCASTER"] }}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                    <b class="winning-team">
+                    {% if game["HOME_TEAM_IMG"] %}
+                        <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                    {% endif %}
+                    {{ game["HOME_TEAM"] }} {{ game["HOME_TEAM_PTS"] }}</b>
+                    <br>
+                    {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                    </div>
+
+                {% else %}
+                    <div class="col-xs-4">
+                    {% if game["AWAY_TEAM_IMG"] %}
+                        <img class="team-logo" src="/static/{{ game["AWAY_TEAM_IMG"] }}"> 
+                    {% endif %} 
+                    {{ game["AWAY_TEAM"] }}
+                    {% if game["AWAY_TEAM_PTS"] %}
+                        {{ game["AWAY_TEAM_PTS"] }}
+                    {% endif %}
+                    <br>
+                    {{ game["AWAY_TEAM_WINS_LOSSES"] }}
+                    </div>
+
+                    <div class="col-xs-4">
+                        <div class="final-text">
+                            {{ game["GAME_STATUS_TEXT"] }}
+                        </div>
+                        <div class="broadcaster">
+                            {{ game["BROADCASTER"] }}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                        {% if game["HOME_TEAM_IMG"] %}
+                            <img class="team-logo" src="/static/{{ game["HOME_TEAM_IMG"] }}"> 
+                        {% endif %} 
+                        {{ game["HOME_TEAM"] }}
+                        {%if game["HOME_TEAM_PTS"] %}
+                            {{ game["HOME_TEAM_PTS"] }}
+                        {% endif %}
+                        <br>
+                        {{ game["HOME_TEAM_WINS_LOSSES"] }}
+                    </div>
+                {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
