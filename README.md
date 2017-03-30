@@ -1,5 +1,7 @@
 # bballfast 
 
+[YouTube tutorial](https://www.youtube.com/watch?v=PLfkns6lZH8)
+
 ### Requirements
 
 0. Have `pip` installed. Use `pip install package` to install 1-8.
@@ -36,7 +38,7 @@ reddit = praw.Reddit(client_id="",
 
 ### Setup locally
 
-To run the server locally at [127.0.0.1:8080](127.0.0.1:8080).
+To run the server locally at [http://127.0.0.1:8080](http://127.0.0.1:8080).
 ```
 python __init__.py
 ```
