@@ -1,4 +1,4 @@
-# nba-simple-view
+# bballfast 
 
 0. Have pip installed. Use pip to install 1-8.
 1. You have `Flask` installed.
