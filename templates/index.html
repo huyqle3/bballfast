@@ -141,6 +141,32 @@
                     </tbody>
                 </table>
                 
+                <br>
+
+                {% if season_high_pts %}
+                <h3 class="date-title">Season High Points</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="list-group">
+                        {% for i in season_high_pts %}
+                            <a class="score-size text-xs-center nounderline list-group-item list-group-item-action" href="/players/{{ i["PLAYER_ID"] }}">
+                                <div class="row">
+                                    <div class="col-xs-1">
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <img class="season-highs" src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ i["PLAYER_ID"] }}.png">
+                                    </div>
+                                    <div class="season-highs-text col-xs-6">
+                                        {{ i["PLAYER"] }}<br><b>{{ i["PTS"] }}</b> AVG PTS
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
                 <br></br>
 
             </div>
@@ -172,20 +198,21 @@
                     </div>
                 </div>
 
-                <!-- YouTube -->
                 <div class="row">
+                    <!-- Bballbreakdown -->
                     <div class="col-lg-6">
-                        {% for i in range(1, 10, 2) %}
-                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
-                                {{ hot_nba_posts[i].title }}
+                        {% for title, link in bball_breakdown_posts.iteritems() %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="{{ link }}">
+                                {{ title }}
                             </a>
                             <br>
                         {% endfor %}
                     </div>
+                    <!-- Fansided Nylon Calculus -->
                     <div class="col-lg-6">
-                        {% for i in range(2, 11, 2) %}
-                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
-                                {{ hot_nba_posts[i].title }}
+                        {% for title, link in fansided_posts.iteritems() %}
+                            <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="{{ link }}">
+                                {{ title }}
                             </a>
                             <br>
                         {% endfor %}
@@ -195,11 +222,9 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6">
-                    
-
+            <div class="col-lg-5">
                 <!-- <blockquote class="reddit-card" data-card-preview="0"><a href="{{ power_ranking_url }}?ref=share&ref_source=embed">{{ power_ranking_title }}</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote> -->
-                <blockquote class="reddit-card size" data-card-preview="0"><a href="https://www.reddit.com/r/nba/comments/61uj3t/official_rnba_power_rankings_11_32717/?ref=share&ref_source=embed">Official /r/NBA Power Rankings #5 (01.02.2017)</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote>
+                <blockquote class="reddit-card" data-card-created="1490923427" data-card-preview="0"><a href="https://www.reddit.com/r/nba/comments/61uj3t/official_rnba_power_rankings_11_32717/?ref=share&ref_source=embed">Official /r/nba Power Rankings #11 (3.27.17)</a> from <a href="http://www.reddit.com/r/nba">nba</a></blockquote>
                 <br>
                 {% if youtube_url %}
                     <br>
@@ -236,14 +261,13 @@
                     </div>
                 </div>
                 {% endif %}
+            </div>
 
-                <br>
-                    
+            <div class="col-lg-7">  
                 <a class="twitter-timeline" data-height="500" href="https://twitter.com/NBATV">Tweets by NBATV</a>
                 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-                </br>
             </div>
         </div>
+
     </div>
 {% endblock %}

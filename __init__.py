@@ -168,6 +168,8 @@ def render_score_page(page, datestring, title):
         # latest_power_ranking = get_reddit_power_ranking()
         latest_power_ranking = (False, False)
         hot_nba_posts = get_hot_nba_post()
+        bball_breakdown_posts = get_bball_breakdown_articles()
+        fansided_posts = get_fansided_articles()
         # hot_nba_post = (False, False)
         youtube_url = youtube_search("freedawkins", 2, True)
 
@@ -176,15 +178,17 @@ def render_score_page(page, datestring, title):
         # rebs_leaders_tiles = league.LeadersTiles(stat_category="REB")
         # asts_leaders_tiles = league.LeadersTiles(stat_category="AST")
 
-        # season_high_pts = pts_leaders_tiles.current_season_high()
+        season_high_pts = pts_leaders_tiles.current_season_high()
         # season_high_rebs = rebs_leaders_tiles.current_season_high()
         # season_high_asts = asts_leaders_tiles.current_season_high()
-        season_high_pts = False
+        # season_high_pts = False
         season_high_rebs = False
         season_high_asts = False
     else:
         latest_power_ranking = (False, False)
         hot_nba_posts = None
+        bball_breakdown_posts = None
+        fansided_posts = None
         youtube_url = False
         season_high_pts = False
         season_high_rebs = False
@@ -206,6 +210,8 @@ def render_score_page(page, datestring, title):
                            west_standings=west_standings,
                            team=CITY_TO_TEAM,
                            hot_nba_posts=hot_nba_posts,
+                           bball_breakdown_posts=bball_breakdown_posts,
+                           fansided_posts=fansided_posts,
                            youtube_url=youtube_url,
                            season_high_pts=season_high_pts,
                            season_high_rebs=season_high_rebs,
@@ -882,7 +888,7 @@ def get_live_game_data():
     pass
 
 def get_bball_breakdown_articles():
-    """Get the latest bballbreakdown articles.
+    """Get a dictionary of the latest bballbreakdown articles.
     """
     bball_breakdown_link = "http://bballbreakdown.com/category/articles/"
 
@@ -894,8 +900,34 @@ def get_bball_breakdown_articles():
 
     cat_slider_items = soup.find_all("div",
                                      {"class": "cat-slider-item"})
+
+    bball_breakdown_dict = {}
+
     for div in cat_slider_items:
-      print(div.find('a')['href'])
+      bball_breakdown_dict[div.find('h2').string] = div.find('a')['href']
+
+    return bball_breakdown_dict
+
+def get_fansided_articles():
+    """Get a dictionary of the latest fansided articles.
+    """
+    fansided_link = "http://fansided.com/nba/the-step-back/nylon-calculus/"
+
+    r = requests.get(fansided_link)
+    fansided_html = r.text
+
+    soup = BeautifulSoup(fansided_html, "html.parser")
+    # print(soup.prettify())
+
+    fansided_articles = soup.find_all("h2",
+                                      {"class": "title"})
+
+    fansided_dict = {}
+
+    for div in fansided_articles:
+        fansided_dict[div.find('a')['title']] = div.find('a')['href']
+
+    return fansided_dict
       
 if __name__ == "__main__":
     # Run officially on a web server.

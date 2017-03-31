@@ -17,3 +17,6 @@ htmlcov
 .coverage
 .coverage.*
 *,cover
+
+# API keys
+secrets.txt
