@@ -2,7 +2,7 @@
 
 [YouTube Tutorial](https://www.youtube.com/watch?v=PLfkns6lZH8)
 
-![bballfast demo image][static/images/demo-1.png]
+![bballfast demo image][https://github.com/huyle333/bballfast/blob/master/static/images/demo-1.png]
 
 ### Requirements
 
