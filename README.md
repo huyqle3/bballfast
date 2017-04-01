@@ -44,3 +44,5 @@ To run the server locally at [http://127.0.0.1:8080](http://127.0.0.1:8080).
 ```
 python __init__.py
 ```
+
+![bballfast demo image](https://github.com/huyle333/bballfast/blob/master/static/images/demo-2.png)
