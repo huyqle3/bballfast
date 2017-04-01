@@ -1,6 +1,8 @@
 # bballfast 
 
-[YouTube tutorial](https://www.youtube.com/watch?v=PLfkns6lZH8)
+[YouTube Tutorial](https://www.youtube.com/watch?v=PLfkns6lZH8)
+
+![bballfast demo image][static/images/demo-1.png]
 
 ### Requirements
 
@@ -16,13 +18,13 @@
 
 ### Create YouTube and Reddit API keys
 
-Put the YouTube and Reddit API keys inside __init__.py.
-
 Create YouTube Data v3 API Credentials Key at:
 [https://console.developers.google.com/apis/dashboard](https://console.developers.google.com/apis/dashboard)
 
 Create Reddit Client ID and Client Secret Key at:
 [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps)
+
+Put the YouTube and Reddit API keys inside `__init__.py`.
 
 ```
 # YouTube Developer Key

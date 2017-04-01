@@ -178,10 +178,10 @@ def render_score_page(page, datestring, title):
         # rebs_leaders_tiles = league.LeadersTiles(stat_category="REB")
         # asts_leaders_tiles = league.LeadersTiles(stat_category="AST")
 
-        season_high_pts = pts_leaders_tiles.current_season_high()
+        # season_high_pts = pts_leaders_tiles.current_season_high()
         # season_high_rebs = rebs_leaders_tiles.current_season_high()
         # season_high_asts = asts_leaders_tiles.current_season_high()
-        # season_high_pts = False
+        season_high_pts = False
         season_high_rebs = False
         season_high_asts = False
     else:

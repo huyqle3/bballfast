@@ -183,7 +183,7 @@
                     <div class="col-lg-6">
                         {% for i in range(1, 10, 2) %}
                             <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
-                                {{ hot_nba_posts[i].title }}
+                                {{ hot_nba_posts[i].title }} <img class="team-logo" src="/static/images/reddit.png">
                             </a>
                             <br>
                         {% endfor %}
@@ -191,7 +191,7 @@
                     <div class="col-lg-6">
                         {% for i in range(2, 11, 2) %}
                             <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="https://reddit.com{{ hot_nba_posts[i].permalink }}">
-                                {{ hot_nba_posts[i].title }}
+                                {{ hot_nba_posts[i].title }} <img class="team-logo" src="/static/images/reddit.png">
                             </a>
                             <br>
                         {% endfor %}
@@ -203,7 +203,8 @@
                     <div class="col-lg-6">
                         {% for title, link in bball_breakdown_posts.iteritems() %}
                             <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="{{ link }}">
-                                {{ title }}
+                                {{ title }} <img class="team-logo" src="/static/images/bballbreakdown.png">
+
                             </a>
                             <br>
                         {% endfor %}
@@ -212,7 +213,7 @@
                     <div class="col-lg-6">
                         {% for title, link in fansided_posts.iteritems() %}
                             <a class="reddit-boxes nounderline list-group-item list-group-item-action" href="{{ link }}">
-                                {{ title }}
+                                {{ title }} <img class="team-logo" src="/static/images/nyloncalculus.png">
                             </a>
                             <br>
                         {% endfor %}
