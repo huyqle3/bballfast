@@ -8,6 +8,7 @@
 
 0. Have `pip` installed. `sudo apt-get install pip`
 1. `pip install -r requirements.txt`
+2. `OPTIONAL` You can also install the latest version of [nba_py](https://github.com/seemethere/nba_py)
 
 ### Create YouTube and Reddit API keys
 
